@@ -27,7 +27,7 @@ class OnlineShoppingCommodityDaoImplTest {
         OnlineShoppingCommodity  onlineShoppingCommodity =
                 OnlineShoppingCommodity.builder()
                         .commodityName("IphoneX")
-                        .creatorUserId(123L)
+                        .creatorUserId(1L)
                         .commodityDesc("desc")
                         .totalStock(100)
                         .availableStock(100)

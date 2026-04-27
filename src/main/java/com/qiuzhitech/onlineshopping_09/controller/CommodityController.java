@@ -44,26 +44,18 @@ public class CommodityController {
         return "add_commodity_success";
     }
 
-
-    @GetMapping("/")
-    public String GetAllCommodities(Map<String, Object> resultMap) {
-        List<OnlineShoppingCommodity> onlineShoppingCommodities = onlineShoppingCommodityDao.listItems();
-        resultMap.put("itemList", onlineShoppingCommodities);
-        return "list_items";
-    }
-
-    @GetMapping("/commodities/{sellerId}")
-    public String GetCommoditiesForSeller(@PathVariable long sellerId, Map<String, Object> resultMap) {
-        List<OnlineShoppingCommodity> onlineShoppingCommodities = onlineShoppingCommodityDao.selectByUserId(sellerId);
-        resultMap.put("itemList", onlineShoppingCommodities);
-        return "list_items";
-    }
-
-    @GetMapping("/item/{commodityId}")
-    public String GetCommodityDetail(@PathVariable long commodityId, Map<String, Object> resultMap) {
-        OnlineShoppingCommodity onlineShoppingCommodity = onlineShoppingCommodityDao.selectByCommodityId(commodityId);
+    @GetMapping("/item/{itemID}")
+    String itemDetail(@PathVariable("itemID") long itemID, Map<String, Object> resultMap) {
+        OnlineShoppingCommodity onlineShoppingCommodity = onlineShoppingCommodityDao.selectByCommodityId(itemID);
         resultMap.put("commodity", onlineShoppingCommodity);
         return "item_detail";
+    }
+
+    @GetMapping("/")
+    String itemList(Map<String, Object> resultMap) {
+        List<OnlineShoppingCommodity> commodities = onlineShoppingCommodityDao.listItems();
+        resultMap.put("itemList", commodities);
+        return "list_items";
     }
 
 }

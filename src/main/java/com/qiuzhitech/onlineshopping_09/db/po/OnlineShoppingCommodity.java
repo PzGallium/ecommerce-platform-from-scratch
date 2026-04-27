@@ -3,8 +3,8 @@ package com.qiuzhitech.onlineshopping_09.db.po;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 public class OnlineShoppingCommodity {
     private Long commodityId;
 

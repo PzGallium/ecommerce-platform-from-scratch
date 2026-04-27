@@ -17,7 +17,7 @@ public class UserController {
     private MyUser defaultUser;
 
     @Resource
-    JwtService jwtService;
+    com.qiuzhitech.onlineshopping_09.service.JwtService jwtService;
 
     @PostMapping("/users")
     public String addUser(@RequestParam int id,

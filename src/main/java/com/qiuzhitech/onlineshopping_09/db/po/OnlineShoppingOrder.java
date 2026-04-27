@@ -4,9 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
-
-@Builder
 @Data
+@Builder
 public class OnlineShoppingOrder {
     private Long orderId;
 
