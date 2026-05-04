@@ -21,17 +21,6 @@
     from online_shopping_commodity
     where commodity_id = #{commodityId,jdbcType=BIGINT}
   </select>
-  <select id="selectByUserId" resultType="com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity">
-    select
-    <include refid="Base_Column_List" />
-    from online_shopping_commodity
-    where creator_user_id = #{userId,jdbcType=BIGINT}
-  </select>
-  <select id="listItems" resultType="com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity">
-    select
-    <include refid="Base_Column_List" />
-    from online_shopping_commodity
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from online_shopping_commodity
     where commodity_id = #{commodityId,jdbcType=BIGINT}
@@ -136,5 +125,22 @@
       total_stock = #{totalStock,jdbcType=INTEGER},
       lock_stock = #{lockStock,jdbcType=INTEGER}
     where commodity_id = #{commodityId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByUserId" resultType="com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity">
+    select
+    <include refid="Base_Column_List" />
+    from online_shopping_commodity
+    where creator_user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="listItems" resultType="com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity">
+    select
+    <include refid="Base_Column_List" />
+    from online_shopping_commodity
+  </select>
+  <update id="deductStock">
+    update online_shopping_commodity
+    set available_stock = available_stock - 1
+    where commodity_id = #{commodityId,jdbcType=BIGINT} and
+      available_stock &gt; 0
   </update>
 </mapper>

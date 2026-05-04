@@ -4,6 +4,7 @@ import com.qiuzhitech.onlineshopping_09.db.dao.OnlineShoppingCommodityDao;
 import com.qiuzhitech.onlineshopping_09.db.dao.OnlineShoppingOrderDao;
 import com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity;
 import com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingOrder;
+import com.qiuzhitech.onlineshopping_09.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,25 +22,16 @@ public class OrderController {
     private OnlineShoppingCommodityDao onlineShoppingCommodityDao;
     @Resource
     private OnlineShoppingOrderDao  onlineShoppingOrderDao;
+    @Resource
+    private OrderService orderService;
 
     @GetMapping("/commodity/buy/{userID}/{itemID}")
     public String buyCommodity(@PathVariable Long userID, @PathVariable Long itemID, Map<String, Object> resultMap) {
+        OnlineShoppingOrder order = orderService.CreateOrderSQL(userID, itemID);
 
-        OnlineShoppingCommodity onlineShoppingCommodity = onlineShoppingCommodityDao.selectByCommodityId(itemID);
-        if (onlineShoppingCommodity.getAvailableStock() > 0) {
-            onlineShoppingCommodity.setAvailableStock(onlineShoppingCommodity.getAvailableStock() - 1);
-            onlineShoppingCommodityDao.updateCommodity(onlineShoppingCommodity);
-            OnlineShoppingOrder onlineShoppingOrder = OnlineShoppingOrder.builder()
-                    .commodityId(onlineShoppingCommodity.getCommodityId())
-                    .userId(userID)
-                    .orderNo(UUID.randomUUID().toString())
-                    .orderStatus(0)
-                    .orderAmount(1L)
-                    .createTime(new Date())
-                    .build();
-            onlineShoppingOrderDao.insertOrder(onlineShoppingOrder);
+        if (order != null) {
             resultMap.put("resultInfo", "success");
-            resultMap.put("orderNo", onlineShoppingOrder.getOrderNo());
+            resultMap.put("orderNo", order.getOrderNo());
         } else {
             resultMap.put("resultInfo", "Out of Stock");
             resultMap.put("orderNo", "");
