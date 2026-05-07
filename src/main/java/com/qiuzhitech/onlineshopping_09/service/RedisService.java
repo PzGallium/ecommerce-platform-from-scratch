@@ -26,7 +26,7 @@ public class RedisService {
         return status;
     }
 
-    public Double deductStock(String key) {
+    public long deductStock(String key) {
         Jedis jedis = jedisPool.getResource();
             String script =
                     "if redis.call('exists', KEYS[1]) == 1 then\n" +
@@ -40,7 +40,7 @@ public class RedisService {
                     "end\n" +
                     "\n" +
                     "return -1;";
-            Double stock = (Double)(jedis.eval(script,
+            Long stock = (Long) (jedis.eval(script,
                     Collections.singletonList(key), Collections.emptyList()));
             return stock;
     }

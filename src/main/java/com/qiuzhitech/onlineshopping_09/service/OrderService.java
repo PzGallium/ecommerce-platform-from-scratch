@@ -18,14 +18,31 @@ public class OrderService {
     private OnlineShoppingOrderDao onlineShoppingOrderDao;
     @Resource
     private OnlineShoppingCommodityDao onlineShoppingCommodityDao;
+    @Resource
+    private RedisService redisService;
 
-    public OnlineShoppingOrder CreateOrderSQL(Long userID, Long itemID) {
+    public OnlineShoppingOrder createOrderSQL(Long userID, Long itemID) {
         int res = onlineShoppingCommodityDao.deductStock(itemID);
         if (res > 0) {
             return CreateOrder(userID, itemID);
         } else {
             log.error("Order Is Not Available");
             return null;
+        }
+    }
+
+    public OnlineShoppingOrder placeOrderByRedis (Long userID, Long commodityID) {
+
+        String key = "OnlineShoppingCommodity_" + commodityID;
+        long v = redisService.deductStock(key);
+        if (v < 0) {
+            log.error("Order Is Not Available :" + commodityID);
+            return null;
+        } else {
+            OnlineShoppingCommodity onlineShoppingCommodity = onlineShoppingCommodityDao.selectByCommodityId(commodityID);
+            onlineShoppingCommodity.setAvailableStock(onlineShoppingCommodity.getAvailableStock() - 1);
+            onlineShoppingCommodityDao.updateCommodity(onlineShoppingCommodity);
+            return PlaceOrderOriginal(userID, commodityID);
         }
     }
 
