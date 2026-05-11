@@ -44,4 +44,24 @@ public class RedisService {
                     Collections.singletonList(key), Collections.emptyList()));
             return stock;
     }
+
+    public boolean tryToGetDistributedLock(long commodityID, String requestID, int time) {
+        Jedis jedis = jedisPool.getResource();
+        String key = "online_shopping_commodity_lock: "  + commodityID;
+        String ret = jedis.set(key, requestID, "NX", "PX", time);//EX|PX, expire time units: EX = seconds; PX = milliseconds
+        jedis.close();
+        return "OK".equals(ret);
+    }
+
+    public boolean releaseDistributedLock(long commodityID, String requestID, int time) {
+        Jedis jedis = jedisPool.getResource();
+        String key = "online_shopping_commodity_lock: "  + commodityID;
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1]" +
+                " then return redis.call('del', KEYS[1])" +
+                " else return 0 end";
+        Object result = jedis.eval(script,
+                Collections.singletonList(key),
+                Collections.singletonList(requestID));
+        return (Long) result == 1L;
+    }
 }

@@ -27,7 +27,7 @@ public class OrderController {
 
     @GetMapping("/commodity/buy/{userID}/{itemID}")
     public String buyCommodity(@PathVariable Long userID, @PathVariable Long itemID, Map<String, Object> resultMap) {
-        OnlineShoppingOrder order = orderService.placeOrderByRedis(userID, itemID);
+        OnlineShoppingOrder order = orderService.placeOrderByDistributedLock(userID, itemID);
 
         if (order != null) {
             resultMap.put("resultInfo", "success");
