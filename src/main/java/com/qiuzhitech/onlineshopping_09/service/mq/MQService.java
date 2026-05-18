@@ -1,4 +1,4 @@
-package com.qiuzhitech.onlineshopping_09.service.MQ;
+package com.qiuzhitech.onlineshopping_09.service.mq;
 
 
 import lombok.extern.slf4j.Slf4j;

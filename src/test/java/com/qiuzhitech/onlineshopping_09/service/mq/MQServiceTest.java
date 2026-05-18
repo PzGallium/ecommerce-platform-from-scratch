@@ -1,4 +1,4 @@
-package com.qiuzhitech.onlineshopping_09.service.MQ;
+package com.qiuzhitech.onlineshopping_09.service.mq;
 
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Resource;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class MQServiceTest {
     @Resource

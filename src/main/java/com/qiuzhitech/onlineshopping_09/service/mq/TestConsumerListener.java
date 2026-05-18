@@ -1,4 +1,4 @@
-package com.qiuzhitech.onlineshopping_09.service.MQ;
+package com.qiuzhitech.onlineshopping_09.service.mq;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -17,7 +17,7 @@ public class TestConsumerListener implements RocketMQListener<MessageExt>, Rocke
 
     @Override
     public void onMessage(MessageExt messageExt) {
-        log.info("Received Message: {}", new String(messageExt.getBody()));
+        String s = new String(messageExt.getBody());
         long nanos = 3_000_000_000L; // seconds in nanoseconds
         LockSupport.parkNanos(nanos);
     }
@@ -26,5 +26,7 @@ public class TestConsumerListener implements RocketMQListener<MessageExt>, Rocke
     public void prepareStart(DefaultMQPushConsumer defaultMQPushConsumer) {
         defaultMQPushConsumer.setConsumeThreadMax(1);
         defaultMQPushConsumer.setConsumeThreadMin(1);
+        defaultMQPushConsumer.setConsumeTimeout(1);
+        defaultMQPushConsumer.setMaxReconsumeTimes(2);
     }
 }
