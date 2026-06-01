@@ -48,6 +48,10 @@ public class PaymentCheckListener implements RocketMQListener<MessageExt>, Rocke
             String key = "OnlineShoppingCommodity_" + order.getCommodityId();
             redisService.reverStock(key);
             log.info("Redis is reverted");
+            //remove from denyList
+            redisService.removeFromDenyList(String.valueOf(order.getUserId()),
+                    String.valueOf(order.getCommodityId()));
+            log.info("User: {} is removed from deny list", order.getUserId());
         } else if (status == 2) {
             log.info("Payment check has been successful");
         }
