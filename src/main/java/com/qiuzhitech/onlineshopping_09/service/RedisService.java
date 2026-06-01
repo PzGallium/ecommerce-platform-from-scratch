@@ -84,7 +84,7 @@ public class RedisService {
 
     public boolean isInDenyList(String userID, String CommodityID) {
         Jedis jedis = jedisPool.getResource();
-        String key = "online_shopping_UserID: "  + userID;
+        String key = "online_shopping:DenyListUserID: "  + userID;
         Boolean sismember = jedis.sismember(key, CommodityID);
         jedis.close();
         return sismember;
@@ -92,7 +92,7 @@ public class RedisService {
 
     public void removeFromDenyList(String userID, String CommodityID) {
         Jedis jedis = jedisPool.getResource();
-        String key = "online_shopping_UserID: "  + userID;
+        String key = "online_shopping:DenyListUserID: "  + userID;
         jedis.srem(key, CommodityID);
         jedis.close();
         log.info("Remove userID: {} from DenyList for Commodity: {}", userID, CommodityID);
