@@ -91,7 +91,10 @@ public class OrderService {
         return order;
     }
     public OnlineShoppingOrder placeOrderFinal (Long userID, long commodityID) throws MQBrokerException, RemotingException, InterruptedException, MQClientException {
-
+         if (redisService.isInDenyList(String.valueOf(userID), String.valueOf(commodityID))) {
+             log.info("Each user has only one quate for the commodity: {}", commodityID);
+             return null;
+         }
         String key = "OnlineShoppingCommodity_" + commodityID;
         long v = redisService.deductStock(key);
         if (v < 0) {
