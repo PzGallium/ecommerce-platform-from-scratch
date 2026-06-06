@@ -25,4 +25,5 @@ public interface OnlineShoppingCommodityMapper {
 
     int revertStock(long itemID);
 
+    List<OnlineShoppingCommodity> searchCommodityByKeyword(String keywordPattern);
 }

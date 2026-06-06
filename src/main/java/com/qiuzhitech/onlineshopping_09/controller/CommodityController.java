@@ -2,6 +2,7 @@ package com.qiuzhitech.onlineshopping_09.controller;
 
 import com.qiuzhitech.onlineshopping_09.db.dao.OnlineShoppingCommodityDao;
 import com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity;
+import com.qiuzhitech.onlineshopping_09.service.SearchService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,8 @@ public class CommodityController {
         return "add_commodity";
     }
 
+    @Resource
+    SearchService searchService;
 
     @PostMapping("/commodities")
     public String HandleAddCommodity(@RequestParam("commodityId") long commodityId,
@@ -58,4 +61,11 @@ public class CommodityController {
         return "list_items";
     }
 
+
+    @GetMapping("searchAction")
+    public String searchCommodity(@RequestParam("keyWord") String keyword, Map<String, Object> resultMap) {
+        List<OnlineShoppingCommodity> commodities = searchService.searchCommodityByDB(keyword);
+        resultMap.put("itemList", commodities);
+        return "list_items";
+    }
 }

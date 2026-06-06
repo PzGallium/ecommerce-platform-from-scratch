@@ -6,6 +6,7 @@ import com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -62,5 +63,10 @@ public class OnlineShoppingCommodityDaoImpl implements OnlineShoppingCommodityDa
     @Override
     public int revertStock(long itemID) {
         return onlineShoppingCommodityMapper.revertStock(itemID);
+    }
+
+    @Override
+    public List<OnlineShoppingCommodity> searchCommodityByKeyword(String keyword) {
+        return onlineShoppingCommodityMapper.searchCommodityByKeyword('%' + keyword + '%');
     }
 }

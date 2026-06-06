@@ -137,7 +137,14 @@
     <include refid="Base_Column_List" />
     from online_shopping_commodity
   </select>
-  <update id="deductStock">
+    <select id="searchCommodityByKeyword"
+            resultType="com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity">
+      select
+      <include refid="Base_Column_List" />
+      from online_shopping_commodity
+      where commodity_desc like #{keywordPattern,jdbcType=VARCHAR};
+    </select>
+    <update id="deductStock">
     update online_shopping_commodity
     set available_stock = available_stock - 1
     where commodity_id = #{commodityId,jdbcType=BIGINT} and

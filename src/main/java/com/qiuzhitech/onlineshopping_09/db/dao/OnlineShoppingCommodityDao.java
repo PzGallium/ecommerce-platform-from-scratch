@@ -14,4 +14,6 @@ public interface OnlineShoppingCommodityDao {
     int deductStock(Long itemID);
 
     int revertStock(long itemID);
+
+    List<OnlineShoppingCommodity> searchCommodityByKeyword(String keyword);
 }
