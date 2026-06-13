@@ -1,8 +1,10 @@
 package com.qiuzhitech.onlineshopping_09.db.po;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 @Builder
 public class OnlineShoppingCommodity {
