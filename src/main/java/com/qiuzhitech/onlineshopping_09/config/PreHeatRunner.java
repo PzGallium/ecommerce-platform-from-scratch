@@ -2,6 +2,7 @@ package com.qiuzhitech.onlineshopping_09.config;
 
 import com.qiuzhitech.onlineshopping_09.db.dao.OnlineShoppingCommodityDao;
 import com.qiuzhitech.onlineshopping_09.db.po.OnlineShoppingCommodity;
+import com.qiuzhitech.onlineshopping_09.service.ESService;
 import com.qiuzhitech.onlineshopping_09.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -20,6 +21,8 @@ public class PreHeatRunner implements ApplicationRunner {
     private OnlineShoppingCommodityDao onlineShoppingCommodityDao;
     @Resource
     private RedisService redisService;
+    @Resource
+    ESService esService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -28,6 +31,7 @@ public class PreHeatRunner implements ApplicationRunner {
             String key = "OnlineShoppingCommodity_" + commodity.getCommodityId();
             String availableStock = commodity.getAvailableStock().toString();
             redisService.setJedisPool(key, availableStock);
+            esService.insertCommodityByES(commodity);
         }
     }
 }
