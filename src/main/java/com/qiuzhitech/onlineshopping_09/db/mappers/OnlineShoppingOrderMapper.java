@@ -19,5 +19,5 @@ public interface OnlineShoppingOrderMapper {
 
     List<OnlineShoppingOrder> listOrders();
 
-    OnlineShoppingOrder selectByOrderNum(String orderNum);
+    OnlineShoppingOrder selectByOrderNum(Long orderNum);
 }

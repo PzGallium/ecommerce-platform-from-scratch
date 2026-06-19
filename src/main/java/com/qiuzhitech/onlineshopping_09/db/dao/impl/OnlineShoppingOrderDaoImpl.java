@@ -54,6 +54,6 @@ public class OnlineShoppingOrderDaoImpl implements OnlineShoppingOrderDao {
      */
     @Override
     public OnlineShoppingOrder queryOrderByOrderNum(String orderNum) {
-        return orderMapper.selectByOrderNum(orderNum);
+        return orderMapper.selectByOrderNum(Long.valueOf(orderNum));
     }
 }
