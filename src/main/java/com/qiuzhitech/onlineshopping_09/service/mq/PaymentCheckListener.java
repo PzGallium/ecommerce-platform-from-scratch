@@ -40,6 +40,7 @@ public class PaymentCheckListener implements RocketMQListener<MessageExt>, Rocke
         OnlineShoppingOrder order = onlineShoppingOrderDao.queryOrderByOrderNum(historyOrder.getOrderNo());
         int status = order.getOrderStatus();
         if (status == 1) {
+            //unpaid
             order.setOrderStatus(99);
             onlineShoppingOrderDao.updateOrder(order);
             log.info("order status is set to 99");

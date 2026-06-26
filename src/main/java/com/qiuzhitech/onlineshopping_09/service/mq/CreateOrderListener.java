@@ -40,6 +40,7 @@ public class CreateOrderListener implements RocketMQListener<MessageExt>, Rocket
             order.setCreateTime(new Date());
             onlineShoppingOrderDao.insertOrder(order);
             log.info("Message process is successful: {}", order);
+            //Send Delay Message to check if it is paid
             mqService.sendDelayMessageFIFO("PaymentCheck", JSON.toJSONString(order), 3);
         } else {
             throw new RuntimeException("Create Order Failed");
