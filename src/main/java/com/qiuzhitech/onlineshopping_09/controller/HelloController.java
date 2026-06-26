@@ -8,19 +8,8 @@ import javax.annotation.Resource;
 @RestController
 public class HelloController {
 
-    @Resource
-    private Dependency dependency;
-
     @Resource(name = "Lyon")
     private MyUser userLyon;
-
-    public int sumPlug2(int a, int b) {
-        return dependency.sum(a, b) + 2;
-    }
-
-    public HelloController(Dependency  dependency) {
-        this.dependency = dependency;
-    }
 
     @PostMapping("/hello")
     public String postHello() {
